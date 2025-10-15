@@ -2,7 +2,14 @@ name: Upload PDF Artifact
 
 on:
   workflow_dispatch:  # 手動觸發
-
+  
+permissions:
+  contents: write       # 允許建立/更新 repo 內容（例如 push, release）
+  actions: write        # 允許使用 actions（例如 upload-artifact）
+  packages: write       # 如果有用到 GitHub Packages 可保留
+  issues: read          # 可讀 issue 資訊
+  pull-requests: read   # 可讀 PR 資訊
+  
 jobs:
   build:
     runs-on: ubuntu-latest
