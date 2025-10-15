@@ -1,0 +1,32 @@
+name: Upload PDF Artifact
+
+on:
+  workflow_dispatch:  # 手動觸發
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Generate sample PDF
+        run: |
+          echo "This is a demo report." > report.pdf
+
+      - name: Upload PDF to artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # or: ${{ secrets.MY_GITHUB_TOKEN }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          python upload_artifact.py
